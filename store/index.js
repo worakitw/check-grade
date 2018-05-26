@@ -1,7 +1,9 @@
-// import Vue from 'vue'
+import Vue from 'vue'
 export const state = () => ({
   online: false,
   drawer: false,
+  grades: [],
+  code: '',
 })
 
 export const mutations = {
@@ -12,24 +14,29 @@ export const mutations = {
     state.drawer = status
   },
 
-  setStudents(state, data) {
-    state.students = data
+  setGrades(state, data) {
+    state.grades = data
   },
 }
 
-// export const actions = {
-//   async loadStudents(store) {
-//     // 1. โหลดข้อมูลเก่าจาก localStorage ก่อน
-//     let students = JSON.parse(window.localStorage.getItem('students') || '[]')
-//     // 2 commit
-//     store.commit('setStudents', students)
+export const actions = {
+  async loadGrades(store) {
+    // 1. โหลดข้อมูลเก่าจาก localStorage ก่อน
+    let grades = JSON.parse(window.localStorage.getItem('grades') || '[]')
+    // 2 commit
+    store.commit('setGrades', grades)
 
-//     // 3. ยิง api เพื่อข้อมูลใหม่จาก server
-//     let res = await Vue.axios.post('/student/list?room=2', { params: { room: 2 } })
-
-//     // 4. commit
-//     store.commit('setStudents', res.data)
-//     // 5. เก็บลง localStorage
-//     window.localStorage.setItem('students', JSON.stringify(res.data))
-//   },
-// }
+    // 3. ยิง api เพื่อข้อมูลใหม่จาก server
+    if (this.code) {
+      let res = await Vue.axios.post('/student/code/', {
+        params: {
+          code: this.code,
+        },
+      })
+      // 4. commit
+      store.commit('setGrades', res.data)
+      // 5. เก็บลง localStorage
+      window.localStorage.setItem('grades', JSON.stringify(res.data))
+    }
+  },
+}
