@@ -1,20 +1,22 @@
 <template>
 
-     <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
+  <v-layout row>
+    <v-flex xs12>
       <v-card>
         <!-- <v-toolbar color="teal" dark>
           <v-toolbar-side-icon></v-toolbar-side-icon>
           <v-toolbar-title>Settings</v-toolbar-title>
         </v-toolbar> -->
         <v-list two-line subheader>
-          <v-subheader><h3>{{name}}</h3></v-subheader>
-          <v-list-tile v-for="(st,i) in students" :key="i" avatar>
-            <v-list-tile-content >
-              <v-list-tile-title>{{st.tcode}} {{st.tsubject}}</v-list-tile-title>
+          <v-subheader>
+            <h3>{{name}}</h3>
+          </v-subheader>
+          <v-list-tile v-for="(gr,i) in grades" :key="i" avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{gr.semes}} {{gr.tcode}} {{gr.tsubject}}</v-list-tile-title>
               <v-list-tile-title>
-                <span class="text-primary">หน่วยกิต {{st.credit}} เกรด {{st.level}}</span>
-                </v-list-tile-title>
+                <span class="text-primary">หน่วยกิต {{gr.credit}} เกรด {{gr.level}}</span>
+              </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <!-- <v-list-tile avatar>
@@ -29,20 +31,43 @@
       </v-card>
     </v-flex>
   </v-layout>
- 
+
 </template>
 <script>
   export default {
-    data () {
+    data() {
       return {
         name: 'Somsak',
-        students: [
-          {tcode: '2105-4221',tsubject: 'ภาษาไทย',credit: '3', level: '4'},
-          {tcode: '2105-4222',tsubject: 'ภาษาไทย',credit: '3', level: '4'},
-          {tcode: '2105-4223',tsubject: 'ภาษาไทย',credit: '3', level: '4'},
-          {tcode: '2105-4224',tsubject: 'ภาษาไทย',credit: '3', level: '4'},
-        ]
+        grades: [],
       }
+    },
+    async created() {
+        this.doGrade()
+    },
+    methods: {
+      async doGrade() {
+        this.grades = this.$store.state.grades
+        this.name = this.$store.state.grades[0].name
+        // const params = {
+        //   code: this.code
+        // }
+        // let res = await this.$http.get('/student/code', { 
+        //   params
+        //   // params: {
+        //   // code: this.code,
+        //   // }
+        // })
+        // if (res.data.ok) {
+        //   // SAVE สำเร็จ
+        //   console.log('save สำเร็จนะ')
+        //   this.grades = res.data.grades
+        // } else {
+        //   // SAVE ไม่เสร็จ
+        //   console.log('ไม่สำเร็จนะ')
+        //   return
+        // }
+      },
     }
+
   }
 </script>
