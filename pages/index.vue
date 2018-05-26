@@ -62,6 +62,8 @@ export default {
       console.log('login สำเร็จ')
       // 1. จำ user/login
        window.localStorage.setItem('grades', JSON.stringify(res.data.grades))
+       this.$store.commit('setGrades', res.data.grades)
+       this.$store.commit('setCode', this.code)
       // 2. ไปหน้า home
       this.$router.push('/checkgrade')
 

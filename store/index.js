@@ -39,6 +39,7 @@ export const actions = {
       store.commit('setGrades', res.data)
       // 5. เก็บลง localStorage
       window.localStorage.setItem('grades', JSON.stringify(res.data))
+      
     }
   },
 }
