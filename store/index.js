@@ -13,9 +13,11 @@ export const mutations = {
   setDrawer(state, status) {
     state.drawer = status
   },
-
   setGrades(state, data) {
     state.grades = data
+  },
+  setCode(state, data) {
+    state.code = data
   },
 }
 
@@ -28,7 +30,7 @@ export const actions = {
 
     // 3. ยิง api เพื่อข้อมูลใหม่จาก server
     if (this.code) {
-      let res = await Vue.axios.post('/student/code/', {
+      let res = await Vue.$http.get('/student/code/', {
         params: {
           code: this.code,
         },
