@@ -11,7 +11,12 @@
           <v-subheader>
             <h3>{{name}}</h3>
           </v-subheader>
-          <v-list-tile v-for="(gr,i) in grades" :key="i" avatar>
+          <v-list-tile-action>
+            <v-radio-group v-model="semes">
+              <v-radio v-for="(n,i) in semeses" :key="i" :label="`ภาคเรียน ${n.semes}`" :value="n.semes" />
+            </v-radio-group>
+          </v-list-tile-action>
+          <v-list-tile v-for="(gr,i) in gradesList" :key="i" avatar>
             <v-list-tile-content>
               <v-list-tile-title>{{gr.semes}} {{gr.tcode}} {{gr.tsubject}}</v-list-tile-title>
               <v-list-tile-title>
@@ -37,12 +42,24 @@
   export default {
     data() {
       return {
-        name: 'Somsak',
+        name: '',
         grades: [],
+        semeses: [],
+        semes: '',
+      }
+    },
+    computed: {
+      gradesList() {
+        return this.grades.filter(gr => gr.semes === this.semes)
       }
     },
     async created() {
-        this.doGrade()
+      if (!this.$store.state.code) {
+        this.$router.replace('/')
+        return
+      }
+      this.getSemes()
+      this.doGrade()
     },
     methods: {
       async doGrade() {
@@ -67,6 +84,21 @@
         //   return
         // }
       },
+      async getSemes() {
+        const params = {
+          code: this.code
+        }
+        let res = await this.$http.get('/student/semes/')
+        if (res.data.ok) {
+          // SAVE สำเร็จ
+          // console.log('save สำเร็จนะ')
+          this.semeses = res.data.semeses
+        } else {
+          // SAVE ไม่เสร็จ
+          // console.log('ไม่สำเร็จนะ')
+          return
+        }
+      }
     }
 
   }
