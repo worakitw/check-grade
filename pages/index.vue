@@ -55,7 +55,7 @@ export default {
       let res=await this.$http.get('/student/code',{
         params: {code: this.code},
       }) 
-       if (!res.data.ok) {
+       if (res.data.grades.length === 0) {
         // TODO: login ไม่สำเร็จ
         return
       }

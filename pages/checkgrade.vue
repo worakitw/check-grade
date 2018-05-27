@@ -13,7 +13,7 @@
           </v-subheader>
           <v-list-tile-action>
             <v-radio-group v-model="semes">
-              <v-radio v-for="(n,i) in semeses" :key="i" :label="`ภาคเรียน ${n.semes}`" :value="n.semes" />
+              <v-radio v-for="(s,i) in semesesList" :key="i" :label="`ภาคเรียน ${s}`" :value="s" />
             </v-radio-group>
           </v-list-tile-action>
           <v-list-tile v-for="(gr,i) in gradesList" :key="i" avatar>
@@ -51,6 +51,12 @@
     computed: {
       gradesList() {
         return this.grades.filter(gr => gr.semes === this.semes)
+      },
+      semesesList(){
+        return Object.keys(this.grades.reduce((s, gr) => {
+          s[gr.semes] = gr.semes
+          return s
+        }, {}))
       }
     },
     async created() {
