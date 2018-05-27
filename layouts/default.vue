@@ -2,11 +2,11 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app />
     <v-toolbar dark color="primary">
-    <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+    <v-toolbar-side-icon @click="goindex"></v-toolbar-side-icon>
     
     <v-toolbar-title class="white--text">ChecK Grade</v-toolbar-title>
       
-      <v-btn icon>
+      <v-btn icon @click="gotoabout">
         <v-icon large color="yellow darken-2">assignment_ind</v-icon>
       </v-btn>
     </v-toolbar>
@@ -57,6 +57,12 @@ export default {
     toggleNetworkStatus({ type }) {
       this.online = type === 'online'
     },
+    gotoabout(){
+      this.$router.push('/about')
+    },
+    goindex(){
+      this.$router.push('/')
+    }
   },
 }
 </script>
